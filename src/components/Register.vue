@@ -53,7 +53,7 @@ export default {
       this.axios.post('auth/getRegisterCode', {
         phone: _this.username
       }).then(function (response) {
-        MessageBox('提示', response.data.message)
+        MessageBox('提示', response.message)
       }).catch(function (error) {
         MessageBox('提示', error)
       })
@@ -65,8 +65,8 @@ export default {
         password: _this.password,
         code: _this.captcha
       }).then(function (response) {
-        MessageBox('提示', response.data.message)
-        if (response.data.code === 200) {
+        MessageBox('提示', response.message)
+        if (response.code === 200) {
           _this.$router.push({ path: 'login' })
         }
       }).catch(function (error) {

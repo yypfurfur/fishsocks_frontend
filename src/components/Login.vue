@@ -14,7 +14,7 @@
 
 <script>
 import Vue from 'vue'
-import { Button, Field, MessageBox } from 'mint-ui'
+import { Button, Field } from 'mint-ui'
 Vue.component(Field.name, Field)
 Vue.component(Button.name, Button)
 export default {
@@ -33,10 +33,10 @@ export default {
         phone: _this.username,
         password: _this.password
       }).then(function (response) {
-        MessageBox('提示', response.data.message)
+        localStorage.token = response.data
         _this.$router.push({ path: 'index' })
       }).catch(function (error) {
-        MessageBox('提示', error)
+        console.log(error)
       })
     },
     register: function () {
