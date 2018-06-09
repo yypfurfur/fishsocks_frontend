@@ -38,12 +38,13 @@ Axios.interceptors.response.use(
     //   console.log(response.error_msg)
     //   return Promise.reject(response)
     // }
-    Indicator.close() 
+    Indicator.close()
     return response.data
   }, error => {
     Indicator.close()
     let status = error.response.status
     if (status === 401) {
+      localStorage.removeItem('token')
       router.push({ path: 'login' })
     }
 

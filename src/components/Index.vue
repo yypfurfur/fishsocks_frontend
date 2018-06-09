@@ -1,70 +1,62 @@
 <template>
-  <div class="index">
-    <mt-header title="Fishsocks">
-      <mt-button icon="more" slot="right"></mt-button>
-    </mt-header>
-    <div class="usermoney"><a @click="pay">余额：{{response.balance}}元</a></div>
-    <mt-swipe :auto="0">
-      <mt-swipe-item v-for="(s, key) in response.ss" :key="key">
-        <div class="showdata">余{{s.left_flow}}G/<span>共{{s.total_flow}}G</span></div>
-        <ul class="showinfo">
-          <li>IP(server)：<span>{{s.ip}}</span></li>
-          <li>端口(port)：<span>{{s.port}}</span></li>
-          <li>状态(status)：<span>{{s.status}}</span></li>
-          <li>密码(password)：<span>{{s.password}}</span></li>
-        </ul>
-        <!-- <div class="changepassword">>>点击修改默认密码</div> -->
-        <div class="saveimg">
-          <img class="qrcode" :src="qrcodeimg">
-          <mt-button type="primary">保存二维码到手机</mt-button>
-        </div>
-      </mt-swipe-item>
-    </mt-swipe>
-    <div class="ssdownload">影梭下载链接：<a href="https://itunes.apple.com/cn/app/ssrconnectpro/id1272045249?mt=8" download="IOS端">IOS端</a> <a href="https://itunes.apple.com/cn/app/ssrconnectpro/id1272045249?mt=8" download="安卓端">安卓端</a></div>
+  <div class="page-tabbar">
+    <mt-header title="Fishsocks"></mt-header>
+    <div class="page-wrap">
+    <!-- tabcontainer -->
+      <mt-tab-container class="page-tabbar-container" v-model="selected">
+        <mt-tab-container-item id="详情">
+          <fish-total></fish-total>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="明细">
+          <fish-pay-detail></fish-pay-detail>
+        </mt-tab-container-item>
+        <mt-tab-container-item id="我的">
+          我的
+       <!--    <router-link to="/">
+            <mt-button type="danger" size="large">退出</mt-button>
+          </router-link> -->
+        </mt-tab-container-item>
+      </mt-tab-container>
+    </div>
+    <mt-tabbar v-model="selected" fixed>
+      <mt-tab-item id="详情">
+        <!-- <img slot="icon" src="../assets/logo.png">   -->
+        详情
+      </mt-tab-item>
+      <mt-tab-item id="明细">
+        <!-- <img slot="icon" src="../assets/logo.png">   -->
+        明细表
+      </mt-tab-item>
+      <mt-tab-item id="我的">
+        <!-- <img slot="icon" src="../assets/logo.png">   -->
+        我的
+      </mt-tab-item>
+    </mt-tabbar>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { Header, MessageBox, Swipe, SwipeItem } from 'mint-ui'
-import qrcodeimg from '../assets/mmqrcode.png'
+import { Header, Swipe, SwipeItem, Tabbar, TabItem, TabContainer, TabContainerItem } from 'mint-ui'
+import FishTotal from '@/components/Total'
+import FishPayDetail from '@/components/PayDetail'
 Vue.component(Header.name, Header)
 Vue.component(Swipe.name, Swipe)
 Vue.component(SwipeItem.name, SwipeItem)
+Vue.component(Tabbar.name, Tabbar)
+Vue.component(TabItem.name, TabItem)
+Vue.component(TabContainer.name, TabContainer)
+Vue.component(TabContainerItem.name, TabContainerItem)
 export default {
   name: 'Index',
+  components: {
+    FishTotal,
+    FishPayDetail
+  },
   data () {
     return {
-      response: {
-        balance: 0,
-        ss: [{
-          ip: '',
-          left_flow: 0,
-          total_flow: 0,
-          password: '',
-          port: 0,
-          status: 0
-        }]
-      },
-      qrcodeimg: qrcodeimg
+      selected: '详情'
     }
-  },
-  methods: {
-    pay: function () {
-      this.$router.push({ path: 'pay' })
-    },
-    getData () {
-      let _this = this
-      this.axios.get('v1/index').then(function (response) {
-        _this.response = response.data
-        console.log(response)
-      }).catch(function (error) {
-        MessageBox('提示', error.message)
-      })
-    }
-  },
-  mounted: function () {
-    this.getData()
   }
 }
 </script>
