@@ -3,7 +3,7 @@
     <mt-swipe :auto="0">
       <mt-swipe-item v-for="(s, key) in response.ss" :key="key">
         <div v-if="s.status == 1" class="showdata">余{{s.left_flow}}MB/<span>共{{s.total_flow}}MB</span></div>
-        <mt-button class="payBtn" type="primary" size="small">充值</mt-button>
+        <div class="payBtn"><mt-button type="primary" size="small">充值</mt-button></div>
         <ul class="showinfo">
           <li>IP(server)：<span>{{s.ip}}</span></li>
           <li>端口(port)：<span>{{s.port}}</span></li>
@@ -137,5 +137,8 @@ a{
 }
 .payBtn{
   margin: 0 auto;
+  width: 15%;
+  left: -50%;
+  right: -50%;
 }
 </style>
